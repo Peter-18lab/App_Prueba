@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Invitación</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600&family=Mrs+Saint+Delafield&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/invitacion.css">
+</head>
+<body>
+
+  <!-- ================= PAISAJE DE FONDO ================= -->
+  <div class="escena" id="escena" aria-hidden="true">
+    <svg id="paisaje" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <linearGradient id="gCielo" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0"    stop-color="#2d5266"/>
+          <stop offset="0.38" stop-color="#b59d8b"/>
+          <stop offset="0.62" stop-color="#f0b47c"/>
+          <stop offset="0.74" stop-color="#f8d49b"/>
+        </linearGradient>
+        <radialGradient id="gSol" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0"   stop-color="#fff3d2" stop-opacity="0.95"/>
+          <stop offset="0.3" stop-color="#ffd9a0" stop-opacity="0.55"/>
+          <stop offset="1"   stop-color="#ffd9a0" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="gLago" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#efc490"/>
+          <stop offset="0.5" stop-color="#7f9a92"/>
+          <stop offset="1" stop-color="#2c565e"/>
+        </linearGradient>
+        <linearGradient id="gBruma" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#ffe9c7" stop-opacity="0"/>
+          <stop offset="0.6" stop-color="#ffe9c7" stop-opacity="0.45"/>
+          <stop offset="1" stop-color="#ffe9c7" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+
+      <rect width="1600" height="650" fill="url(#gCielo)"/>
+      <circle cx="1040" cy="540" r="260" fill="url(#gSol)"/>
+      <circle cx="1040" cy="540" r="46" fill="#fff3d2"/>
+
+      <!-- Nubes: se desplazan lento (CSS) -->
+      <g class="nubes">
+        <g class="nube n1" fill="#fff0da" opacity="0.4">
+          <ellipse cx="300" cy="190" rx="150" ry="16"/><ellipse cx="380" cy="175" rx="90" ry="12"/>
+        </g>
+        <g class="nube n2" fill="#fff0da" opacity="0.32">
+          <ellipse cx="900" cy="290" rx="190" ry="18"/><ellipse cx="1010" cy="272" rx="100" ry="12"/>
+        </g>
+        <g class="nube n3" fill="#fff0da" opacity="0.28">
+          <ellipse cx="1350" cy="150" rx="140" ry="14"/>
+        </g>
+      </g>
+
+      <!-- Montañas lejanas, medias y línea de árboles -->
+      <path fill="#7893a0" d="M0 640 L0 500 L90 462 L170 498 L270 430 L350 470 L450 392 L560 480 L650 440 L760 505 L880 470 L960 540 L1040 566 L1130 535 L1230 470 L1330 505 L1420 440 L1520 490 L1600 455 L1600 640 Z"/>
+      <rect y="560" width="1600" height="90" fill="url(#gBruma)"/>
+      <path fill="#4e7578" d="M0 660 L0 560 L100 540 L210 575 L330 520 L450 580 L570 548 L690 595 L800 570 L920 610 L1040 622 L1160 600 L1280 560 L1400 590 L1500 545 L1600 570 L1600 660 Z"/>
+      <g id="arbolesLejanos"></g>
+
+      <!-- Lago -->
+      <rect y="650" width="1600" height="250" fill="url(#gLago)"/>
+      <g id="reflejoSol"></g>
+      <rect y="640" width="1600" height="60" fill="url(#gBruma)" opacity="0.7"/>
+
+      <!-- Orillas y pinos de primer plano -->
+      <g id="arbolesCerca"></g>
+    </svg>
+
+    <canvas id="luciernagas"></canvas>
+    <div class="vineta"></div>
+  </div>
+
+  <!-- Telón verde: continúa la transición de la pantalla de inicio -->
+  <div class="telon" id="telon" aria-hidden="true"></div>
+
+  <!-- ================= SOBRE Y CARTA ================= -->
+  <main class="escenario" id="escenario">
+    <div class="stage" id="stage">
+
+      <!-- Capa trasera del sobre (interior + solapa abierta) -->
+      <svg class="sobre sobre-atras" id="sobreAtras" viewBox="-170 -115 340 230" aria-hidden="true">
+        <rect x="-170" y="-115" width="340" height="230" rx="3" fill="#cdb98c"/>
+        <polygon id="solapaAtras" points="-170,-115 170,-115 0,25" fill="#b9a574" stroke="#a89464" stroke-width="1" stroke-linejoin="round" visibility="hidden"/>
+      </svg>
+
+      <!-- Carta (entra y sale del sobre) -->
+      <article class="carta" id="carta" aria-label="Carta de invitación">
+        <div class="carta-cuerpo" id="cartaCuerpo" tabindex="-1">
+          <p class="saludo" id="saludo"></p>
+          <div id="parrafos"></div>
+          <p class="despedida" id="despedida"></p>
+          <p class="remitente" id="remitente"></p>
+
+          <div class="zona-accion" id="zonaAccion">
+            <button class="btn-acepto" id="btnAcepto" type="button">
+              <span class="btn-acepto-texto"></span>
+            </button>
+          </div>
+
+          <div class="firmas" id="firmas">
+            <div class="firma">
+              <div class="tinta"><span class="trazo" id="firmaInvitado"></span></div>
+              <div class="linea"></div>
+              <p class="etiqueta"></p>
+            </div>
+            <div class="firma">
+              <div class="tinta"><span class="trazo" id="firmaAnfitrion"></span></div>
+              <div class="linea"></div>
+              <p class="etiqueta"></p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Capa delantera del sobre (bolsillo + solapa cerrada).
+           Estos mismos polígonos se transforman en el avión. -->
+      <svg class="sobre sobre-frente" id="sobreFrente" viewBox="-170 -115 340 230" aria-hidden="true">
+        <polygon id="pB" points="-170,115 170,115 0,5"      fill="#e4d2a8" stroke="#c4b182" stroke-width="1" stroke-linejoin="round"/>
+        <polygon id="pL" points="-170,-115 0,5 -170,115"    fill="#f1e3c1" stroke="#c4b182" stroke-width="1" stroke-linejoin="round"/>
+        <polygon id="pR" points="170,-115 0,5 170,115"      fill="#eadbb4" stroke="#c4b182" stroke-width="1" stroke-linejoin="round"/>
+        <polygon id="pF" points="-170,-115 170,-115 0,25"   fill="#f7ecd1" stroke="#c4b182" stroke-width="1" stroke-linejoin="round"/>
+        <g id="sello"><path id="selloForma" fill="#b5612c"/><circle r="6" fill="none" stroke="#e8a15a" stroke-width="2"/></g>
+      </svg>
+
+      <!-- Área clicable para abrir el sobre -->
+      <button class="area-sobre" id="btnSobre" type="button" aria-label="Abrir el sobre"></button>
+    </div>
+
+    <p class="pista" id="pista"></p>
+  </main>
+
+  <!-- ================= MENSAJE FINAL ================= -->
+  <section class="final" id="final" aria-live="polite">
+    <p class="final-linea" id="finalA"></p>
+    <p class="final-linea final-linea-2" id="finalB"></p>
+  </section>
+
+  <script src="js/datos.js"></script>
+  <script src="js/paisaje.js"></script>
+  <script src="js/invitacion.js"></script>
+  <script src="js/avion.js"></script>
+</body>
+</html>

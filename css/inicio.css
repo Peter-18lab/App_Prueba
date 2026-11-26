@@ -1,0 +1,99 @@
+/* ==========================================================
+   INICIO.CSS — pantalla de inicio (fondo mecatrónico + botón)
+   ========================================================== */
+
+:root {
+  --fondo: #0a1018;      /* azul grafito */
+  --cobre: #e8a15a;      /* cobre de placa de circuito */
+  --acero: #5fb4d6;      /* acero azulado */
+  --texto: #f3e6d2;
+  --verde-cortina: #213f33; /* mismo verde con el que abre la página de la carta */
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  background: var(--fondo);
+  overflow: hidden;
+}
+
+#fondo {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.centro {
+  position: relative;
+  z-index: 2;
+  min-height: 100%;
+  display: grid;
+  place-items: center;
+}
+
+/* ---------- Botón Inicio ----------
+   Forma con esquinas cortadas (como una pieza maquinada).
+   El borde cobre es el propio fondo del botón; ::before es el interior. */
+.btn-inicio {
+  --corte: 14px;
+  position: relative;
+  padding: 1.15rem 3.6rem;
+  border: 0;
+  cursor: pointer;
+  font-family: "Chakra Petch", "Segoe UI", system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 1.5rem;
+  letter-spacing: 0.08em;
+  color: var(--texto);
+  background: var(--cobre);
+  clip-path: polygon(
+    var(--corte) 0, 100% 0,
+    100% calc(100% - var(--corte)),
+    calc(100% - var(--corte)) 100%,
+    0 100%, 0 var(--corte)
+  );
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.btn-inicio::before {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  background: linear-gradient(90deg, var(--cobre) 50%, rgba(10, 16, 24, 0.94) 50%) right / 200% 100%;
+  clip-path: inherit;
+  transition: background-position 0.45s ease;
+}
+
+.btn-texto { position: relative; z-index: 1; }
+
+.btn-inicio:hover::before,
+.btn-inicio:focus-visible::before {
+  background-position: left;
+}
+.btn-inicio:hover,
+.btn-inicio:focus-visible { color: var(--fondo); transform: scale(1.04); }
+
+.btn-inicio:focus-visible {
+  outline: 2px solid var(--acero);
+  outline-offset: 6px;
+}
+
+.btn-inicio:active { transform: scale(0.97); }
+.btn-inicio[disabled] { pointer-events: none; }
+
+/* ---------- Cortina de transición ---------- */
+#cortina {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  background: var(--verde-cortina);
+  clip-path: circle(0px at 50% 50%);
+  pointer-events: none;
+}
+
+@media (max-width: 480px) {
+  .btn-inicio { font-size: 1.25rem; padding: 1rem 2.8rem; }
+}
